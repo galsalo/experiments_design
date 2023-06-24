@@ -43,6 +43,6 @@ if st.button('Next Patient'):
         st.session_state["current_dose"] += 1
 
 for i in range(doses):
-st.sidebar.markdown(f'### Dose Group {i+1}')
-st.sidebar.text(f'Patients: {st.session_state["patient_data"][i]["patients"]}')
-st.sidebar.text(f'Side Effects: {st.session_state["patient_data"][i]["side_effects"]}')
+    st.sidebar.markdown(f'### Dose Group {i+1}')
+    st.sidebar.text(f'Patients: {st.session_state["patient_data"][i]["patients"]}')
+    st.sidebar.text(f'Side Effects: {st.session_state["patient_data"][i]["side_effects"]}')
