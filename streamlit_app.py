@@ -2,7 +2,12 @@ import streamlit as st
 import scipy.optimize
 import numpy as np
 
-# The app is hosted and Live at:
+##############################################################################
+## The app is hosted and Live at: https://experiments-design.streamlit.app/ ##
+##############################################################################
+# Name: Gal Salomon
+# I.D: 316613140
+
 
 def theta_func(theta):
     vals = []
