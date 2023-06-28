@@ -89,18 +89,24 @@ if st.session_state['submitted_values']:
 
         # Update patient data in session state
         st.session_state['patient_data'][st.session_state["current_dose"]]['patients'] += 1
+
+        # Side effect True
         if side_effects:
             st.session_state['first_side_effect'] = True
             st.session_state['patient_data'][st.session_state["current_dose"]]['side_effects'] += 1
+            if st.session_state['first_side_effect'] and st.session_state['first_no_side_effect']:
+                st.session_state['CRM'] = True
             if st.session_state['CRM']:
                 st.session_state['current_dose'], st.session_state['curr_theta'] = get_closest_dose(doses_values, threshold)
                 st.session_state['theta_calculated'] = True
-            if st.session_state['first_side_effect'] and st.session_state['first_no_side_effect']:
-                st.session_state['CRM'] = True
 
 
+
+        # Side effect False
         else:
             st.session_state['first_no_side_effect'] = True
+            if st.session_state['first_side_effect'] and st.session_state['first_no_side_effect']:
+                st.session_state['CRM'] = True
             if st.session_state['CRM']:
                 st.session_state['current_dose'], st.session_state['curr_theta'] = get_closest_dose(doses_values, threshold)
                 st.session_state['theta_calculated'] = True
@@ -108,9 +114,6 @@ if st.session_state['submitted_values']:
                 st.session_state['current_dose'] += 1
                 if st.session_state['current_dose'] >= doses_amount:
                     st.session_state['current_dose'] = doses_amount - 1
-            if st.session_state['first_side_effect'] and st.session_state['first_no_side_effect']:
-                st.session_state['CRM'] = True
-
 
         st.experimental_rerun()
 
