@@ -9,14 +9,15 @@ import numpy as np
 # I.D: 316613140
 
 
+# Helper functions
 def theta_func(theta):
     vals = []
-
     for i in range(doses_amount):
         current_val = np.power(doses_values[i], theta*st.session_state['patient_data'][i]['side_effects'])*np.power((1-np.power(doses_values[i],theta)), st.session_state['patient_data'][i]['patients']-st.session_state['patient_data'][i]['side_effects'])
         vals.append(current_val)
 
     return float(np.prod(vals))
+
 
 def find_max_theta():
     return scipy.optimize.fminbound(lambda x: -theta_func(x), 0, 10, disp=False)
@@ -29,6 +30,7 @@ def get_closest_dose(doses, threshold):
     return doses.index(closest_value), theta
 
 
+
 st.title('CRM Experiment')
 st.write('This is a CRM experiment. Please enter the number of doses and their priors. Then, enter the threshold for the target distribution. The CRM will then recommend a dose for the next patient. After you enter the patient data, the CRM will update the dose recommendation. You can also see the theta estimate in the sidebar.')
 st.write(':heavy_exclamation_mark: the estimators will be calculated only after the first patient with side effects and the first patient without side effects are entered.')
@@ -36,7 +38,6 @@ st.subheader('Enter the amount of doses')
 
 if 'submitted_values' not in st.session_state:
     st.session_state['submitted_values'] = False
-
 
     # Number of doses and their values
 doses_amount = st.number_input('Number of doses', value=1, min_value=1, format="%d")
@@ -63,7 +64,6 @@ if st.session_state['submitted_values']:
     st.write(f'You entered {doses_amount} doses.')
     st.write(f'Your priors are {["%.3f" % prior for prior in doses_values]}')
     st.write(f'Your threshold is {"%.3f" % threshold}')
-
 
     # Initialize session state for current dose
     if 'current_dose' not in st.session_state:
@@ -99,7 +99,6 @@ if st.session_state['submitted_values']:
             if st.session_state['CRM']:
                 st.session_state['current_dose'], st.session_state['curr_theta'] = get_closest_dose(doses_values, threshold)
                 st.session_state['theta_calculated'] = True
-
 
 
         # Side effect False
